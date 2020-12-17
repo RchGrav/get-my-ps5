@@ -23,6 +23,8 @@ Donations greatly appreciated (this work takes time):
 
 1. After it finishes installing, run `npm run watch` to start monitoring for PlayStation 5 restocks.
 
+_Still need help?_ Check out our [detailed installation guide](./docs/installation.md).
+
 ## Important note
 
 By using this software, you are doing so at your own risk. 
@@ -32,7 +34,7 @@ The biggest consequence of running this software is getting an IP-based ban on t
 ## Additional documentation
 
 * [How to install](./docs/installation.md)
-* [Usage](./docs/usage.md)
+* [How to use](./docs/usage.md)
 * [Troubleshooting](./docs/issues.md)
 * [Frequently asked questions](./docs/faq.md)
 * [Contributing](./docs/contributing.md)

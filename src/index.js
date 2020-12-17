@@ -1,10 +1,7 @@
-const open = require("open");
 const promptly = require("promptly");
 const puppeteer = require("puppeteer");
-const choice = ("disc");
-const alarm = ("Y");
 
-const {checkForPlaystationDirectRedirect, playAlarm} = require("./utils");
+const {checkForPlaystationDirectRedirect, playAlarm, openUrl} = require("./utils");
 
 /** Constants */
 const playstationType = {
@@ -20,18 +17,18 @@ const playstationType = {
 
 /** Let's do this */
 (async function() {
-    if (choice == "") choice = await promptly.choose("Which version would you like? (disc or digital)", ["disc", "digital"]);
-    if (alarm == "") alarm = await promptly.choose("Would you like to hear a loud, annoying alarm when we find your PS5? (Y or N)", ["Y", "N"])
+    const choice = process.env.PS5_VERSION || await promptly.choose("Which version would you like? (disc or digital)", ["disc", "digital"]);
+    const alarm = process.env.PLAY_ALARM || await promptly.confirm("Would you like to hear a loud, annoying alarm when we find your PS5? (Y or N)", ["y", "n"]);
+
     console.log(`Searching for PlayStation 5 ${choice} edition...`);
-    
     const onSuccess = () => {
         console.log("Found it! Opening queue now...");
-        open(playstationType[choice].url);
-        if (alarm.toUpperCase() === "Y") {
-            playAlarm();
+        openUrl(playstationType[choice].url);
+        if (alarm) {
+          playAlarm();
         }
     };
-    checkForPlaystationDirectRedirect(5000, onSuccess, playstationType[choice].id, await puppeteer.launch());
+    checkForPlaystationDirectRedirect(process.env.CHECK_INTERVAL || 5000, onSuccess, playstationType[choice].id, await puppeteer.launch());
 })();
 
 // Gracefully exit
